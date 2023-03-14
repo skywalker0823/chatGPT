@@ -1,0 +1,33 @@
+body {
+    background-color: #F7F7F7;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.title{
+    background-color: #E5E5E5;
+    color: #333;
+    padding: 20px;
+    text-align: center;
+}
+
+.search_bar{
+    background-color: #FFF;
+    border-bottom: 1px solid #DDD;
+    color: #333;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    margin: 5px;
+}
+
+.send_button{
+    background-color: #FFF;
+    border-bottom: 1px solid #DDD;
+    color: #333;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    margin: 5px;
+}

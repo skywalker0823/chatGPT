@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+
     <title>Example</title>
 </head>
 <body>
-    <div>Example page</div>
-    <input id="message" type="text">
-    <img id="loading" src="/static/img/loading.png">
+    <div class="title">Example page</div>
+    <input class="search_bar" id="message" type="text" placeholder="Your input here">
+    <img id="loading" src="/static/img/loading.gif">
     <div id="response"></div>
-    <button onclick="send()">SEND</button>
+    <button class="send_button" onclick="send()">SEND</button>
     <script src="/static/js/script.js"></script>
 </body>
 </html>
