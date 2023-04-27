@@ -26,3 +26,7 @@ send = async () => {
     document.getElementById("response").innerHTML = data;
 }
 
+document.getElementById("clear_button").addEventListener("click", () => {
+    document.getElementById("message").value = "";
+    document.getElementById("response").innerHTML = "";
+});
