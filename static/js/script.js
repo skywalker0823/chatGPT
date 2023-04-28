@@ -8,9 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 send = async () => {
     // clear the response and display loading image
-    document.getElementById("response").innerHTML = "";
+    // document.getElementById("response").innerHTML = "";
     document.getElementById("loading").style.display = "block";
     const message = document.getElementById('message').value;
+    // display my message,starts with Me, not using innseHTML
+    const my_message = document.createElement('div');
+    my_message.className = "my_message";
+    my_message.innerHTML = message;
+    document.getElementById("response").appendChild(my_message);
+
+
+    
     const response = await fetch('/chatbot', {
         method: 'POST',
         headers: {
@@ -23,10 +31,16 @@ send = async () => {
     const data = await response.json();
     console.log(data);
     document.getElementById("loading").style.display = "none";
-    document.getElementById("response").innerHTML = data;
+    // document.getElementById("response").innerHTML = data;
+    // display chatbot message
+    const chatbot_message = document.createElement('div');
+    chatbot_message.className = "chatbot_message";
+    chatbot_message.innerHTML = data;
+    document.getElementById("response").appendChild(chatbot_message);
+
 }
 
-document.getElementById("clear_button").addEventListener("click", () => {
-    document.getElementById("message").value = "";
-    document.getElementById("response").innerHTML = "";
-});
+// document.getElementById("clear_button").addEventListener("click", () => {
+//     document.getElementById("message").value = "";
+//     document.getElementById("response").innerHTML = "";
+// });

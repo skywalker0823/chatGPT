@@ -1,4 +1,5 @@
-# ChatGPT example
+# Simple ChatGPT example with LINE Messaging API
+為了能更簡單的使用 chatGPT for LINE, 這裡提供簡單的範例
 
 # Steps
 ## venv
