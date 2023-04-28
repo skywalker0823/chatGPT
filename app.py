@@ -6,13 +6,11 @@ from linebot.exceptions import InvalidSignatureError
 from linebot import LineBotApi, WebhookHandler
 from linebot.models import TextSendMessage, MessageEvent, TextMessage
 
-
 load_dotenv()
+
 openai.api_key = os.getenv("OPEN_AI_API_KEY")
 line_bot_api = LineBotApi(os.getenv("LINE_CHANNEL_ACCESS_TOKEN"))
 handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
-
-
 
 app = Flask(__name__, static_folder='static', template_folder='templates', static_url_path='/static')
 
@@ -22,7 +20,6 @@ message_stream = []
 # @app.route('/')
 # def index():
 #     return render_template('index.html')
-
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -49,15 +46,16 @@ def handle_message(event):
         temperature=0.7,   
     )
 
-    
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=response.choices[0].message.content)
     )
 
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
+
+
 
 
 
