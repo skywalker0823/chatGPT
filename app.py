@@ -37,6 +37,9 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     message = event.message.text
+    user_id = event.source.user_id
+    print("收到提問 >>> message: ", message, "user_id: ", user_id)
+    # 計劃用 id 識別使用者，使對話可以"接續"，容器啟動後一段時間會銷毀，對話應該不會也不用長久儲存
     message_log = [{"role": "user", "content": message}]
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",  # 使用的模型
