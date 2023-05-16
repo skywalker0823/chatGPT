@@ -42,6 +42,13 @@ def handle_message(event):
     message = event.message.text
     user_id = event.source.user_id
     # 計劃用 id 識別使用者，使對話可以"接續"，容器啟動後一段時間會銷毀，對話應該不會也不用長久儲存
+    if message == "clear" or message == "清除" or message == "清空" or message == "清除歷史" or message == "清空歷史":
+        conversation_history[user_id] = []
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="已清除歷史訊息")
+        )
+        return
     if message == "get_list":
         line_bot_api.reply_message(
             event.reply_token,
