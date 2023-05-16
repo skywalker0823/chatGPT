@@ -49,36 +49,37 @@ def handle_message(event):
             TextSendMessage(text="已清除歷史訊息")
         )
         return
-    if message == "get_list":
+    elif message == "get_list":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=str(user_list_in_memory))
         )
         return
-    if message == "get_history":
+    elif message == "get_history":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=str(conversation_history))
         )
         return
-    if user_id not in conversation_history:
-        conversation_history[user_id] = []
-    conversation_history[user_id].append({"role": "user", "content": message})
-    # message_log = [{"role": "user", "content": message}]
-    # send back all message include history
-    message_log = conversation_history[user_id]
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",  # 使用的模型
-        messages=message_log,   # 對話紀錄
-        max_tokens=3800,        # token上限
-        stop="exit",            # 結束對話的字串
-        temperature=0.7,   
-    )
-    conversation_history[user_id].append({"role": "assistant", "content": response.choices[0].message.content})
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=response.choices[0].message.content)
-    )
+    else:
+        if user_id not in conversation_history:
+            conversation_history[user_id] = []
+        conversation_history[user_id].append({"role": "user", "content": message})
+        # message_log = [{"role": "user", "content": message}]
+        # send back all message include history
+        message_log = conversation_history[user_id]
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # 使用的模型
+            messages=message_log,   # 對話紀錄
+            max_tokens=3800,        # token上限
+            stop="exit",            # 結束對話的字串
+            temperature=0.7,   
+        )
+        conversation_history[user_id].append({"role": "assistant", "content": response.choices[0].message.content})
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=response.choices[0].message.content)
+        )
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
