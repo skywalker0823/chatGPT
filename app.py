@@ -57,7 +57,9 @@ def handle_message(event):
     if user_id not in conversation_history:
         conversation_history[user_id] = []
     conversation_history[user_id].append({"role": "user", "content": message})
-    message_log = [{"role": "user", "content": message}]
+    # message_log = [{"role": "user", "content": message}]
+    # send back all message include history
+    message_log = conversation_history[user_id]
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",  # 使用的模型
         messages=message_log,   # 對話紀錄
