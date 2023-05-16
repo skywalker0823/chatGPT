@@ -26,7 +26,9 @@ def callback():
     body = request.get_data(as_text=True)
     # get user id
     user_id = request.json['events'][0]['source']['userId']
-    print("user_id>>>",user_id)
+    if user_id not in user_list_in_memory:
+        user_list_in_memory.append(user_id)
+    
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -40,6 +42,12 @@ def handle_message(event):
     message = event.message.text
     user_id = event.source.user_id
     # 計劃用 id 識別使用者，使對話可以"接續"，容器啟動後一段時間會銷毀，對話應該不會也不用長久儲存
+    if message == "test":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=str(user_list_in_memory))
+        )
+        return
     message_log = [{"role": "user", "content": message}]
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",  # 使用的模型
