@@ -67,7 +67,7 @@ def handle_message(event):
         stop="exit",            # 結束對話的字串
         temperature=0.7,   
     )
-
+    conversation_history[user_id].append({"role": "chatbot", "content": response.choices[0].message.content})
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=response.choices[0].message.content)
