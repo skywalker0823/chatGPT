@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, jsonify, abort
-import os
-import openai
+import os, openai
 from dotenv import load_dotenv
 from linebot.exceptions import InvalidSignatureError
 from linebot import LineBotApi, WebhookHandler
@@ -14,7 +13,7 @@ handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 
 app = Flask(__name__, static_folder='static', template_folder='templates', static_url_path='/static')
 
-message_stream = []
+user_list_in_memory = []
 
 # 測試用網頁
 # @app.route('/')
@@ -25,7 +24,6 @@ message_stream = []
 def callback():
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
-    # print(body)
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -38,7 +36,7 @@ def callback():
 def handle_message(event):
     message = event.message.text
     user_id = event.source.user_id
-    print("收到提問 >>> message: ", message, "user_id: ", user_id)
+    print("event>>>",event)
     # 計劃用 id 識別使用者，使對話可以"接續"，容器啟動後一段時間會銷毀，對話應該不會也不用長久儲存
     message_log = [{"role": "user", "content": message}]
     response = openai.ChatCompletion.create(
@@ -53,6 +51,7 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=response.choices[0].message.content)
     )
+    print("user_info>>>",event.reply_token, event.message.text, event.source.user_id)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
