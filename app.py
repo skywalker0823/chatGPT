@@ -14,6 +14,7 @@ handler = WebhookHandler(os.getenv("LINE_CHANNEL_SECRET"))
 app = Flask(__name__, static_folder='static', template_folder='templates', static_url_path='/static')
 
 user_list_in_memory = []
+conversation_history = {}
 
 # 測試用網頁
 # @app.route('/')
@@ -28,7 +29,6 @@ def callback():
     user_id = request.json['events'][0]['source']['userId']
     if user_id not in user_list_in_memory:
         user_list_in_memory.append(user_id)
-    
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -42,12 +42,21 @@ def handle_message(event):
     message = event.message.text
     user_id = event.source.user_id
     # 計劃用 id 識別使用者，使對話可以"接續"，容器啟動後一段時間會銷毀，對話應該不會也不用長久儲存
-    if message == "test":
+    if message == "get_list":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=str(user_list_in_memory))
         )
         return
+    if message == "get_history":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=str(conversation_history))
+        )
+        return
+    if user_id not in conversation_history:
+        conversation_history[user_id] = []
+    conversation_history[user_id].append({"role": "user", "content": message})
     message_log = [{"role": "user", "content": message}]
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",  # 使用的模型
