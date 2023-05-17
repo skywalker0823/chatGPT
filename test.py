@@ -26,7 +26,7 @@ async def manage_request(message_log):
 # execute twice to test async
 async def main():
     print(await send_message([{"role": "user", "content": "地球上最高的地方"}]))
-    print(await send_message([{"role": "user", "content": "地球上最深的洞窟"}]))
+    print(await send_message([{"role": "user", "content": "地球上最深的地方"}]))
 
 
 

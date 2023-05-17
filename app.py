@@ -16,11 +16,6 @@ app = Flask(__name__, static_folder='static', template_folder='templates', stati
 user_list_in_memory = []
 conversation_history = {}
 
-# 測試用網頁
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
-
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -41,32 +36,26 @@ def callback():
 def handle_message(event):
     message = event.message.text
     user_id = event.source.user_id
-    # 計劃用 id 識別使用者，使對話可以"接續"，容器啟動後一段時間會銷毀，對話應該不會也不用長久儲存
     if message == "clear" or message == "清除" or message == "清空" or message == "清除歷史" or message == "清空歷史":
         conversation_history[user_id] = []
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="已清除歷史訊息")
         )
-        return
     elif message == "get_list":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=str(user_list_in_memory))
         )
-        return
     elif message == "get_history":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=str(conversation_history))
         )
-        return
     else:
         if user_id not in conversation_history:
             conversation_history[user_id] = []
         conversation_history[user_id].append({"role": "user", "content": message})
-        # message_log = [{"role": "user", "content": message}]
-        # send back all message include history
         message_log = conversation_history[user_id]
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",  # 使用的模型
@@ -89,12 +78,6 @@ if __name__ == "__main__":
 
 
 
-# 網頁版
-# HOW TO RUN
-# 1. create virtual environment: (At root dir)python3 -m venv venv
-# 2. activate virtual environment: source venv/bin/activate
-# 3. install packages: pip install -r requirements.txt
-# 4. run app: python3 app.py
 
 # HOW TO RUN WITH DOCKER
 # 1. build image: docker build -t chatgpt .

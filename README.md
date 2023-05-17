@@ -1,38 +1,23 @@
 # Simple ChatGPT example with LINE Messaging API
-為了能更簡單的使用 chatGPT for LINE, 這裡提供簡單的範例
-未來會慢慢完善整個步驟
-
+為了能更簡單的使用 chatGPT for LINE, 本專案會引導你/妳如何建置自己的 LineBot!
+(本文建築中...)
 # Requirements
-
-
-# Steps
-* clone this repo
-* cd to root directory of this project
-* python3 -m venv venv
-* source venv/bin/activate
-* pip install -r requirements.txt
-* cp .env.example .env
-
 ## About KEYs
 ### OpenAI API KEY
-* OPENAI_API_KEY
-
-### LINE Messaging API KEY
+* OPENAI_API_KEY - https://platform.openai.com/account/api-keys
+* 注意這個東西是要收費的，但是有免費的額度，可以先試試看。基本上 Pay as you go 如果你/妳不是大量使用的話，應該不會花太多錢。
+* 這個 KEY 會用來跟 OpenAI 的 API 溝通，請務必保管好，不要上傳到 github 等公開的地方。
+### LINE Messaging API KEYs
 * LINE_CHANNEL_ACCESS_TOKEN
 * LINE_CHANNEL_SECRET
 
+# Deploy
+## 本地端測試 - ngrok
+## 部署 - EC2/Compute Engine 或其他雲服務的 VM
+* 若有自己的VM也可以嘗試部署
 
-## Start development server
-* 將 app.py 中的 `app.route("/")` 整個部分反註解
-* python3 app.py
-* Open your browser and go to http://localhost:5000
+## 部署 - Cloud Run
+* 最推薦的方式，每個月若正常用量也不會花很多錢。
 
-## production server(waitress)
-* waitress-serve --port=5000 app:app
-
-## Docker
-* docker build -t chatgpt .
-* docker run -dp5000:5000 --name chatgpt chatgpt
-
-## About ngrok
-* 這個東西可以將 localhost:5000 轉換成一個可以讓外部網路存取的網址，拿來測試很方便
+## 部署 - Vercel
+* vercel 免費版(Hobby plan)有限制 timeout 10秒, 10秒對於chatgpt來說根本沒辦法進行什麼對話, 所以不建議使用 vercel 部署(除非你的小卡準備好了)。
