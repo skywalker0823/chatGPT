@@ -60,7 +60,7 @@ def handle_message(event):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",  # 使用的模型
             messages=message_log,   # 對話紀錄
-            max_tokens=3800,        # token上限
+            max_tokens=4097,        # token上限
             stop="exit",            # 結束對話的字串
             temperature=0.7,   
         )
