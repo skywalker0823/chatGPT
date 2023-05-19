@@ -55,6 +55,13 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=str(conversation_history))
         )
+    elif message == "clear_all":
+        conversation_history.clear()
+        user_list_in_memory.clear()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text="已清除所有歷史訊息")
+        )
     else:
         conversation_history[user_id].append({"role": "user", "content": message})
         message_log = conversation_history[user_id]
