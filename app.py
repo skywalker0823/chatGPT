@@ -42,6 +42,14 @@ def handle_message(event):
     # try:
     if message == "clear" or message == "清除" or message == "清空" or message == "清除歷史" or message == "清空歷史":
         conversation_history[user_id] = []
+        # stop the conversation
+        openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",  # 使用的模型
+            messages=[{"role":"user","content":"exit"}],   # 對話紀錄
+            max_tokens=4097,        # token上限
+            stop="exit",            # 結束對話的字串
+            temperature=0.7,   
+        )
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text="已清除歷史訊息")
@@ -55,13 +63,6 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=str(conversation_history))
-        )
-    elif message == "clear_all":
-        conversation_history.clear()
-        user_list_in_memory.clear()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text="已清除所有歷史訊息")
         )
     else:
         conversation_history[user_id].append({"role": "user", "content": message})
