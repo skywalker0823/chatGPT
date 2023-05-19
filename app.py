@@ -34,6 +34,7 @@ def callback():
 # Line chatGPT
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    message_log = None
     message = event.message.text
     user_id = event.source.user_id
     if user_id not in conversation_history:
