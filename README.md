@@ -1,6 +1,8 @@
 # Simple ChatGPT example with LINE Messaging API
+
+OpenAI官方chatGPT APP出來囉~關閉了
+
 為了能更簡單的使用 chatGPT for LINE, 本專案會引導你/妳如何建置自己的 LineBot!
-(本文建築中...)
 # Requirements
 ## About KEYs
 ### OpenAI API KEY
